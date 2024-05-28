@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="pojo.Category" table="category">
+        <id name="id" column="id" type="string">
+            <generator class="assigned"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+    </class>
+</hibernate-mapping>
