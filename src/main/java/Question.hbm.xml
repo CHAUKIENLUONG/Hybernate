@@ -1,0 +1,11 @@
+<hibernate-mapping>
+    <class name="pojo.Question" table="question">
+        <id name="id" column="id" type="string"/>
+        <property name="content" column="content" type="string"/>
+        <many-to-one name="level" column="level" class="pojo.Level"/>
+        <set name="categories" table="ques_cate">
+            <key column="question_id"/>
+            <many-to-many column="category_id" class="pojo.Category"/>
+        </set>
+    </class>
+</hibernate-mapping>

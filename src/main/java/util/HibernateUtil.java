@@ -2,37 +2,30 @@ package util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import org.hibernate.HibernateException;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
+
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private static final SessionFactory sessionFactory;
 
-    private static SessionFactory buildSessionFactory() {
+    static {
         try {
-            // Tạo đối tượng Configuration
-            Configuration configuration = new Configuration().configure();
-
-            // Tạo đối tượng ServiceRegistry
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                    .applySettings(configuration.getProperties()).build();
-
-            // Tạo SessionFactory từ Configuration và ServiceRegistry
-            return configuration.buildSessionFactory(serviceRegistry);
-        } catch (Exception e) {
-            System.err.println("Loi khong the tao SessionFactory");
-            e.printStackTrace(); // In ra chi tiết lỗi
-            throw new ExceptionInInitializerError(e); // Ném ngoại lệ để dừng chương trình
+            Configuration configure = new Configuration();
+            configure.configure("hibernate.cfg.xml");
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+            builder.applySettings(configure.getProperties());
+            ServiceRegistry serviceRegistry = builder.build();
+            sessionFactory = configure.buildSessionFactory(serviceRegistry);
+        } catch (HibernateException ex) {
+            System.err.println("Initial SessionFactory failed." + ex);
+            throw new ExceptionInInitializerError(ex);
         }
     }
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
-
-    public static void shutdown() {
-        if (sessionFactory != null) {
-            sessionFactory.close();
-        }
-    }
 }
+

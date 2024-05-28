@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="pojo.Choice" table="choice">
+        <id name="id" column="id" type="string"/>
+        <property name="content" column="content" type="string"/>
+        <property name="correct" column="is_correct" type="boolean"/>
+        <many-to-one name="question" column="question_id" class="pojo.Question"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,6 @@
+<hibernate-mapping>
+    <class name="pojo.Level" table="level">
+        <id name="id" column="id" type="string"/>
+        <property name="name" column="name" type="string"/>
+    </class>
+</hibernate-mapping>
